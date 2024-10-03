@@ -1,0 +1,30 @@
+#!/usr/bin/env php
+<?php
+
+use Illuminate\Contracts\Console\Kernel;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Output\ConsoleOutput;
+
+define('LARAVEL_START', microtime(true));
+
+// Register the Composer autoloader
+require __DIR__.'/vendor/autoload.php';
+
+// Bootstrap the application
+$app = require_once __DIR__.'/bootstrap/app.php';
+
+// Make the kernel
+$kernel = $app->make(Kernel::class);
+
+// Handle the incoming command
+$status = $kernel->handle(
+    $input = new ArgvInput,
+    new ConsoleOutput
+);
+
+// Terminate the kernel
+$kernel->terminate($input, $status);
+
+// Exit the application
+exit($status);
+
